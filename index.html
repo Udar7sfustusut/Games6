@@ -11,15 +11,31 @@
 
         // If no file is provided in the URL, redirect to a default page or show an error
         if (!swfFile) {
-            document.body.innerHTML = "<h1>Error: No SWF file specified!</h1>";
+            document.body.innerHTML = "<h1>Error: No SWF file specified!</h1><p>Please provide a SWF file in the URL, like ?file=game1.swf</p>";
         } else {
             // Set the SWF file URL dynamically
             const swfUrl = "https://your-netlify-site-url.com/games6/" + swfFile;
+
+            // Check if SWF is supported (Flash is deprecated in modern browsers, so provide a fallback)
+            const flashNotSupportedMessage = `
+                <h1>Flash Player Not Supported</h1>
+                <p>Your browser does not support Flash. Please use a compatible browser or view this content in an alternative way.</p>
+            `;
+
+            // Create SWF embed HTML
             const swfObjectHTML = `
                 <object data="${swfUrl}" type="application/x-shockwave-flash" width="800" height="600">
                     <param name="movie" value="${swfUrl}">
+                    <param name="quality" value="high">
+                    <param name="bgcolor" value="#ffffff">
+                    <param name="allowFullScreen" value="true">
+                    <param name="allowScriptAccess" value="always">
+                    <param name="flashvars" value="autoplay=true">
+                    <p>${flashNotSupportedMessage}</p>
                 </object>
             `;
+
+            // Set the body content dynamically
             document.body.innerHTML = swfObjectHTML;
         }
     </script>
@@ -27,3 +43,4 @@
 <body>
 </body>
 </html>
+
